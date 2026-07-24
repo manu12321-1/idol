@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-POP 아이돌 종합 백과사전 & MV 가이드</title>
+    <style>
+        /* CSS Reset 및 변수 정의 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        :root {
+            --primary-color: #6c5ce7;
+            --primary-hover: #5a4bcf;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #2d3436;
+            --text-sub: #636e72;
+            --border-color: #dfe6e9;
+            --youtube-red: #ff0000;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 35px 20px;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.2);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 1.05rem;
+            opacity: 0.95;
+        }
+
+        /* Nav Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-sub);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 직업 가이드 카드 */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .card h2 {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .role-box {
+            background: #f1f2f6;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .role-box h3 {
+            font-size: 1.05rem;
+            margin-bottom: 6px;
+        }
+
+        .role-box p {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+        }
+
+        /* 검색 및 필터 컨트롤 */
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px 16px;
+            font-size: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-bar:focus {
+            border-color: var(--primary-color);
+        }
+
+        .category-filter {
+            padding: 12px 16px;
+            font-size: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            outline: none;
+            background: white;
+            cursor: pointer;
+        }
+
+        .count-info {
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            font-weight: 600;
+        }
+
+        /* 아이돌 카드 그리드 */
+        .idol-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .idol-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s;
+        }
+
+        .idol-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .idol-card-body {
+            padding: 20px;
+        }
+
+        .idol-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+
+        .badge-group {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .idol-tag {
+            display: inline-block;
+            background: #eef2ff;
+            color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .idol-tag.type {
+            background: #e1f5fe;
+            color: #0288d1;
+        }
+
+        .idol-card p {
+            font-size: 0.92rem;
+            color: var(--text-sub);
+            margin-bottom: 15px;
+        }
+
+        /* 버튼 영역 */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 0 20px 20px 20px;
+        }
+
+        .link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-align: center;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .link-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .mv-btn {
+            background-color: var(--youtube-red);
+        }
+
+        .mv-btn:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>K-POP 아이돌 종합 백과사전</h1>
+        <p>아이돌 직업 구조 이해부터 대표 아티스트 정보 및 핵심 뮤직비디오까지 한눈에 감상하세요!</p>
+    </header>
+
+    <nav class="nav-tabs">
+        <button class="tab-btn active" onclick="openTab('job-tab', this)">직업 탐구 가이드</button>
+        <button class="tab-btn" onclick="openTab('list-tab', this)">활동 아이돌 & 대표 MV</button>
+    </nav>
+
+    <section id="job-tab" class="tab-content active">
+        <article class="card">
+            <h2>🎤 아이돌(Idol)이라는 직업이란?</h2>
+            <p>아이돌은 보컬, 댄스, 랩, 패션, 연기, 예능 등 다방면에서 활약하는 <strong>종합 예술 아티스트</strong>입니다.</p>
+            <p>강력한 글로벌 팬덤을 형성하며 무대 연출, 컨셉 기획, 글로벌 문화 교류의 중심축 역할을 담당하고 있습니다.</p>
+        </article>
+
+        <article class="card">
+            <h2>⚙️ 팀 내 역할 분담 (Position)</h2>
+            <div class="role-grid">
+                <div class="role-box">
+                    <h3>보컬 (Vocal)</h3>
+                    <p>메인/리드/서브 보컬로 구분되며, 곡의 핵심 멜로디와 메인 가창을 맡습니다.</p>
+                </div>
+                <div class="role-box">
+                    <h3>댄스 (Dance)</h3>
+                    <p>메인/리드 댄서로 구성되며, 군무의 완성도와 무대 센터 퍼포먼스를 주도합니다.</p>
+                </div>
+                <div class="role-box">
+                    <h3>랩 (Rap)</h3>
+                    <p>메인/리드 래퍼로서 곡의 전환부나 강렬한 리듬 파트를 전담합니다.</p>
+                </div>
+                <div class="role-box">
+                    <h3>리더 & 프로듀서</h3>
+                    <p>팀을 조율하고 대외 활동을 이끌며, 작사/작곡에 참여하여 고유의 음악색을 완성합니다.</p>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section id="list-tab" class="tab-content">
+        <div class="filter-container">
+            <input type="text" id="search-input" class="search-bar" placeholder="그룹명, 소속사, 대표 곡을 검색해 보세요..." onkeyup="filterIdols()">
+            <select id="category-select" class="category-filter" onchange="filterIdols()">
+                <option value="ALL">전체 보기</option>
+                <option value="보이그룹">보이그룹</option>
+                <option value="걸그룹">걸그룹</option>
+            </select>
+        </div>
+
+        <div class="count-info" id="count-info">총 0개의 그룹 검색됨</div>
+
+        <div class="idol-grid" id="idol-list">
+            </div>
+    </section>
+</div>
+
+<script>
+    // 탭 전환
+    function openTab(tabId, element) {
+        const contents = document.querySelectorAll('.tab-content');
+        const buttons = document.querySelectorAll('.tab-btn');
+
+        contents.forEach(content => content.classList.remove('active'));
+        buttons.forEach(btn => btn.classList.remove('active'));
+
+        document.getElementById(tabId).classList.add('active');
+        element.classList.add('active');
+    }
+
+    // 아이돌 45개 팀 확장 DB
+    const idolsData = [
+        {
+            name: "방탄소년단 (BTS)",
+            agency: "하이브 (BigHit Music)",
+            type: "보이그룹",
+            song: "Dynamite",
+            desc: "글로벌 음악 시장의 정상에 오른 세계적인 7인조 보이그룹.",
+            link: "https://namu.wiki/w/방탄소년단",
+            mv: "https://www.youtube.com/watch?v=gdZLi9oWNZg"
+        },
+        {
+            name: "블랙핑크 (BLACKPINK)",
+            agency: "YG 엔터테인먼트",
+            type: "걸그룹",
+            song: "How You Like That",
+            desc: "글로벌 패션과 음악 신을 동시에 이끄는 4인조 걸그룹.",
+            link: "https://namu.wiki/w/BLACKPINK",
+            mv: "https://www.youtube.com/watch?v=ioNng23DkIM"
+        },
+        {
+            name: "세븐틴 (SEVENTEEN)",
+            agency: "하이브 (플레디스)",
+            type: "보이그룹",
+            song: "손오공 (Super)",
+            desc: "자체 제작 능력과 독보적인 군무 퍼포먼스를 자랑하는 13인조 그룹.",
+            link: "https://namu.wiki/w/세븐틴(아이돌)",
+            mv: "https://www.youtube.com/watch?v=-GQg25oP0S4"
+        },
+        {
+            name: "뉴진스 (NewJeans)",
+            agency: "ADOR",
+            type: "걸그룹",
+            song: "Hype Boy",
+            desc: "감성적인 신선함과 트렌디함으로 대중 음악 흐름을 재정의한 그룹.",
+            link: "https://namu.wiki/w/NewJeans",
+            mv: "https://www.youtube.com/watch?v=11cta61Wi0g"
+        },
+        {
+            name: "스트레이 키즈 (Stray Kids)",
+            agency: "JYP 엔터테인먼트",
+            type: "보이그룹",
+            song: "특 (S-Class)",
+            desc: "자체 프로듀싱 그룹으로 다이내믹하고 독창적인 음악색을 보여주는 보이그룹.",
+            link: "https://namu.wiki/w/Stray%20Kids",
+            mv: "https://www.youtube.com/watch?v=JsOOis4bC2s"
+        },
+        {
+            name: "아이브 (IVE)",
+            agency: "스타쉽 엔터테인먼트",
+            type: "걸그룹",
+            song: "I AM",
+            desc: "당당한 매력과 높은 대중성으로 연속 히트 곡을 발표한 6인조 걸그룹.",
+            link: "https://namu.wiki/w/IVE",
+            mv: "https://www.youtube.com/watch?v=6ZUIwj3WE40"
+        },
+        {
+            name: "에스파 (aespa)",
+            agency: "SM 엔터테인먼트",
+            type: "걸그룹",
+            song: "Supernova",
+            desc: "독보적인 메타버스 세계관과 트렌디한 사운드로 유명한 4인조 걸그룹.",
+            link: "https://namu.wiki/w/aespa",
+            mv: "https://www.youtube.com/watch?v=phuiiNCxRMg"
+        },
+        {
+            name: "르세라핌 (LE SSERAFIM)",
+            agency: "하이브 (쏘스뮤직)",
+            type: "걸그룹",
+            song: "EASY",
+            desc: "당당한 주체성과 화려한 안무 퍼포먼스가 매력적인 5인조 그룹.",
+            link: "https://namu.wiki/w/LE%20SSERAFIM",
+            mv: "https://www.youtube.com/watch?v=bNKXxfigA3I"
+        },
+        {
+            name: "투모로우바이투게더 (TXT)",
+            agency: "하이브 (BigHit Music)",
+            type: "보이그룹",
+            song: "Sugar Rush Ride",
+            desc: "섬세한 감성과 청춘 서사를 비주얼 콘셉트로 잘 풀어내는 5인조 보이그룹.",
+            link: "https://namu.wiki/w/투모로우바이투게더",
+            mv: "https://www.youtube.com/watch?v=P9tKTxbgdkk"
+        },
+        {
+            name: "아일릿 (ILLIT)",
+            agency: "하이브 (빌리프랩)",
+            type: "걸그룹",
+            song: "Magnetic",
+            desc: "중독성 넘치는 멜로디와 상큼한 퍼포먼스로 큰 사랑을 받는 신인 걸그룹.",
+            link: "https://namu.wiki/w/ILLIT",
+            mv: "https://www.youtube.com/watch?v=Vk5-c_v4gMU"
+        },
+        {
+            name: "라이즈 (RIIZE)",
+            agency: "SM 엔터테인먼트",
+            type: "보이그룹",
+            song: "Get A Guitar",
+            desc: "독자적인 이모셔널 팝(Emotional Pop) 장르로 가파르게 성장한 SM 보이그룹.",
+            link: "https://namu.wiki/w/RIIZE",
+            mv: "https://www.youtube.com/watch?v=iS1T-m460g4"
+        },
+        {
+            name: "제로베이스원 (ZEROBASEONE)",
+            agency: "웨이크원",
+            type: "보이그룹",
+            song: "In Bloom",
+            desc: "글로벌 팬덤의 전폭적인 지원 속에 결성된 9인조 탄탄한 신인 보이그룹.",
+            link: "https://namu.wiki/w/ZEROBASEONE",
+            mv: "https://www.youtube.com/watch?v=trE2O3m_6mU"
+        },
+        {
+            name: "TWS (투어스)",
+            agency: "하이브 (플레디스)",
+            type: "보이그룹",
+            song: "첫 만남은 계획대로 되지 않아",
+            desc: "청량한 '보이후드 팝'을 내세우며 대중성을 사로잡은 6인조 신인 보이그룹.",
+            link: "https://namu.wiki/w/TWS",
+            mv: "https://www.youtube.com/watch?v=hVAc1Vf2ITU"
+        },
+        {
+            name: "키스오브라이프 (KISS OF LIFE)",
+            agency: "S2 엔터테인먼트",
+            type: "걸그룹",
+            song: "Sticky",
+            desc: "뛰어난 라이브 보컬과 개성 넘치는 스타일로 인정받은 4인조 걸그룹.",
+            link: "https://namu.wiki/w/KISS%20OF%20LIFE",
+            mv: "https://www.youtube.com/watch?v=I3E4mR_Y5d4"
+        },
+        {
+            name: "베이비몬스터 (BABYMONSTER)",
+            agency: "YG 엔터테인먼트",
+            type: "걸그룹",
+            song: "SHEESH",
+            desc: "YG 특유의 파워풀한 힙합 감성을 잇는 실력파 7인조 신예 걸그룹.",
+            link: "https://namu.wiki/w/BABYMONSTER",
+            mv: "https://www.youtube.com/watch?v=2T_zC5_S97A"
+        },
+        {
+            name: "보이넥스트도어 (BOYNEXTDOOR)",
+            agency: "하이브 (KOZ)",
+            type: "보이그룹",
+            song: "Earth, Wind & Fire",
+            desc: "친근하고 유쾌한 일상 에너지로 개성을 드러내는 6인조 보이그룹.",
+            link: "https://namu.wiki/w/BOYNEXTDOOR",
+            mv: "https://www.youtube.com/watch?v=J9f2Kk813b4"
+        },
+        {
+            name: "트와이스 (TWICE)",
+            agency: "JYP 엔터테인먼트",
+            type: "걸그룹",
+            song: "What is Love?",
+            desc: "글로벌 아레나 및 스타디움 투어를 성황리에 펼치는 대표 9인조 걸그룹.",
+            link: "https://namu.wiki/w/TWICE",
+            mv: "https://www.youtube.com/watch?v=i0p1bmr0EmE"
+        },
+        {
+            name: "엔하이픈 (ENHYPEN)",
+            agency: "빌리프랩",
+            type: "보이그룹",
+            song: "Bite Me",
+            desc: "다크 판타지 스토리텔링과 완벽한 칼군무를 선보이는 글로벌 7인조 그룹.",
+            link: "https://namu.wiki/w/ENHYPEN",
+            mv: "https://www.youtube.com/watch?v=wXFLzODIdUI"
+        },
+        {
+            name: "NCT 127",
+            agency: "SM 엔터테인먼트",
+            type: "보이그룹",
+            song: "질주 (2 Baddies)",
+            desc: "실험적이고 독창적인 힙합 베이스의 사운드를 선보이는 서울 기반 그룹.",
+            link: "https://namu.wiki/w/NCT%20127",
+            mv: "https://www.youtube.com/watch?v=FRilMXZq3To"
+        },
+        {
+            name: "NCT DREAM",
+            agency: "SM 엔터테인먼트",
+            type: "보이그룹",
+            song: "ISTJ",
+            desc: "에너지 넘치는 연출과 완성도 높은 라이브 퍼포먼스의 7인조 그룹.",
+            link: "https://namu.wiki/w/NCT%20DREAM",
+            mv: "https://www.youtube.com/watch?v=S3O89zB33h8"
+        },
+        {
+            name: "NCT WISH",
+            agency: "SM 엔터테인먼트",
+            type: "보이그룹",
+            song: "WISH",
+            desc: "청량하고 밝은 에너지를 겸비한 SM의 6인조 차세대 보이그룹.",
+            link: "https://namu.wiki/w/NCT%20WISH",
+            mv: "https://www.youtube.com/watch?v=ZfXjAIs_u84"
+        },
+        {
+            name: "(여자)아이들 ((G)I-DLE)",
+            agency: "큐브 엔터테인먼트",
+            type: "걸그룹",
+            song: "Fate (아픈 건 딱 질색이니까)",
+            desc: "독창적인 주체성과 음악적 셀프 프로듀싱 능력을 겸비한 걸그룹.",
+            link: "https://namu.wiki/w/(여자)아이들",
+            mv: "https://www.youtube.com/watch?v=ATK7gU2U9rU"
+        },
+        {
+            name: "에이티즈 (ATEEZ)",
+            agency: "KQ 엔터테인먼트",
+            type: "보이그룹",
+            song: "BOUNCY",
+            desc: "강렬한 무대 몰입감과 뚜렷한 항해 세계관을 가진 8인조 그룹.",
+            link: "https://namu.wiki/w/ATEEZ",
+            mv: "https://www.youtube.com/watch?v=v8C30Cmy3f8"
+        },
+        {
+            name: "있지 (ITZY)",
+            agency: "JYP 엔터테인먼트",
+            type: "걸그룹",
+            song: "WANNABE",
+            desc: "당당한 나 자신을 주제로 탄탄한 안무 라이브를 펼치는 5인조 그룹.",
+            link: "https://namu.wiki/w/ITZY",
+            mv: "https://www.youtube.com/watch?v=fE2h3lGlOsk"
+        },
+        {
+            name: "엔믹스 (NMIXX)",
+            agency: "JYP 엔터테인먼트",
+            type: "걸그룹",
+            song: "DASH",
+            desc: "독창적인 '믹스팝(MIXX POP)'과 올라운더 가창력을 겸비한 6인조.",
+            link: "https://namu.wiki/w/NMIXX",
+            mv: "https://www.youtube.com/watch?v=1D3zO1d5e3E"
+        },
+        {
+            name: "레드벨벳 (Red Velvet)",
+            agency: "SM 엔터테인먼트",
+            type: "걸그룹",
+            song: "Psycho",
+            desc: "독보적인 하이엔드 콘셉트 연출과 완벽한 음악적 조화를 가진 5인조 그룹.",
+            link: "https://namu.wiki/w/레드벨벳",
+            mv: "https://www.youtube.com/watch?v=uR8Mrt1yXXg"
+        },
+        {
+            name: "샤이니 (SHINee)",
+            agency: "SM 엔터테인먼트",
+            type: "보이그룹",
+            song: "HARD",
+            desc: "트렌디한 음악과 세련된 안무 구성으로 오랜 시간 사랑받아 온 아티스트.",
+            link: "https://namu.wiki/w/샤이니",
+            mv: "https://www.youtube.com/watch?v=833917mB--E"
+        },
+        {
+            name: "엑소 (EXO)",
+            agency: "SM 엔터테인먼트",
+            type: "보이그룹",
+            song: "Growl (으르렁)",
+            desc: "보컬, 퍼포먼스, 세계관 모두에서 큰 기틀을 마련한 K-POP 레전드 그룹.",
+            link: "https://namu.wiki/w/EXO",
+            mv: "https://www.youtube.com/watch?v=I3uezACy62s"
+        },
+        {
+            name: "몬스타엑스 (MONSTA X)",
+            agency: "스타쉽 엔터테인먼트",
+            type: "보이그룹",
+            song: "GAMBLER",
+            desc: "에너제틱하고 마초적인 매력과 파워풀한 퍼포먼스를 내세우는 그룹.",
+            link: "https://namu.wiki/w/몬스타엑스",
+            mv: "https://www.youtube.com/watch?v=fyZ12v-I9mU"
+        },
+        {
+            name: "더보이즈 (THE BOYZ)",
+            agency: "IST 엔터테인먼트",
+            type: "보이그룹",
+            song: "THRILL RIDE",
+            desc: "화려한 비주얼 연출 및 완성도 높은 서커스급 군무를 지닌 보이그룹.",
+            link: "https://namu.wiki/w/더보이즈",
+            mv: "https://www.youtube.com/watch?v=x0x04k7A42s"
+        },
+        {
+            name: "트레저 (TREASURE)",
+            agency: "YG 엔터테인먼트",
+            type: "보이그룹",
+            song: "BONA BONA",
+            desc: "폭발적인 무대 장배력과 에너지를 지닌 YG의 다인원 그룹.",
+            link: "https://namu.wiki/w/TREASURE",
+            mv: "https://www.youtube.com/watch?v=c3S1w86I-N4"
+        },
+        {
+            name: "프로미스나인 (fromis_9)",
+            agency: "하이브 (플레디스)",
+            type: "걸그룹",
+            song: "Supersonic",
+            desc: "청량한 멜로디라인과 매력적인 보컬 음색을 지닌 걸그룹.",
+            link: "https://namu.wiki/w/fromis_9",
+            mv: "https://www.youtube.com/watch?v=9L7W0x9K7pM"
+        },
+        {
+            name: "스테이씨 (STAYC)",
+            agency: "하이업 엔터테인먼트",
+            type: "걸그룹",
+            song: "Teddy Bear",
+            desc: "건강하고 긍정적인 '틴프레시(TEENFRESH)' 에너지를 전달하는 6인조.",
+            link: "https://namu.wiki/w/STAYC",
+            mv: "https://www.youtube.com/watch?v=Sx_S0a_gSps"
+        },
+        {
+            name: "트리플에스 (tripleS)",
+            agency: "모드하우스",
+            type: "걸그룹",
+            song: "Girls' Never Die",
+            desc: "팬 참여형 사원 투표 시스템과 24인이라는 초대형 규모를 갖춘 걸그룹.",
+            link: "https://namu.wiki/w/tripleS",
+            mv: "https://www.youtube.com/watch?v=2K4y2P72UqI"
+        },
+        {
+            name: "크래비티 (CRAVITY)",
+            agency: "스타쉽 엔터테인먼트",
+            type: "보이그룹",
+            song: "Love or Die",
+            desc: "속도감 있는 파워풀 안무와 독자적 세계관으로 활약하는 9인조 보이그룹.",
+            link: "https://namu.wiki/w/CRAVITY",
+            mv: "https://www.youtube.com/watch?v=O1S1wM2iPGA"
+        },
+        {
+            name: "피프티 피프티 (FIFTY FIFTY)",
+            agency: "어트랙트",
+            type: "걸그룹",
+            song: "Cupid",
+            desc: "감각적인 음색과 글로벌 차트 진입 성과로 세계적 눈길을 모은 그룹.",
+            link: "https://namu.wiki/w/FIFTY%20FIFTY",
+            mv: "https://www.youtube.com/watch?v=Qc7_zRjH808"
+        },
+        {
+            name: "캣츠아이 (KATSEYE)",
+            agency: "하이브 x 게펜",
+            type: "걸그룹",
+            song: "Touch",
+            desc: "글로벌 오디션을 거쳐 탄생한 트렌디한 글로벌 유닛 걸그룹.",
+            link: "https://namu.wiki/w/KATSEYE",
+            mv: "https://www.youtube.com/watch?v=phx31i_WpT0"
+        },
+        {
+            name: "원어스 (ONEUS)",
+            agency: "RBW",
+            type: "보이그룹",
+            song: "월하미인 (LUNA)",
+            desc: "한국적인 미학 요소를 안무 및 음악 콘셉트로 잘 풀어내는 실력파 그룹.",
+            link: "https://namu.wiki/w/원어스",
+            mv: "https://www.youtube.com/watch?v=6P3AeejSj_w"
+        },
+        {
+            name: "이븐 (EVNNE)",
+            agency: "젤리피쉬 엔터테인먼트",
+            type: "보이그룹",
+            song: "UGLY",
+            desc: "화려한 댄스 실력과 힙합 악동 모티브를 지닌 7인조 보이그룹.",
+            link: "https://namu.wiki/w/EVNNE",
+            mv: "https://www.youtube.com/watch?v=sOvh2jGqR_U"
+        },
+        {
+            name: "앤팀 (&TEAM)",
+            agency: "하이브 레이블즈 재팬",
+            type: "보이그룹",
+            song: "War Cry",
+            desc: "늑대인간 모티브의 역동적 스토리텔링과 군무를 선보이는 파워풀 그룹.",
+            link: "https://namu.wiki/w/&TEAM",
+            mv: "https://www.youtube.com/watch?v=s6z144_H4cI"
+        },
+        {
+            name: "케플러 (Kep1er)",
+            agency: "웨이크원 / 클렙",
+            type: "걸그룹",
+            song: "WA DA DA",
+            desc: "에너제틱한 에너지를 기반으로 글로벌 무대에서 활약 중인 걸그룹.",
+            link: "https://namu.wiki/w/Kep1er",
+            mv: "https://www.youtube.com/watch?v=n0j5NPptUpk"
+        },
+        {
+            name: "드림캐쳐 (Dreamcatcher)",
+            agency: "드림캐쳐 컴퍼니",
+            type: "걸그룹",
+            song: "BOCA",
+            desc: "록 사운드 기반의 독창적인 시그니처 음악과 독보적 세계관의 그룹.",
+            link: "https://namu.wiki/w/드림캐쳐(아이돌)",
+            mv: "https://www.youtube.com/watch?v=MZ49S9pRjS0"
+        },
+        {
+            name: "온앤오프 (ONF)",
+            agency: "WM 엔터테인먼트",
+            type: "보이그룹",
+            song: "사랑하게 될 거야 (Beautiful Beautiful)",
+            desc: "완성도 높은 프로듀싱 명곡들과 단단한 라이브 가창력으로 입소문을 탄 그룹.",
+            link: "https://namu.wiki/w/온앤오프",
+            mv: "https://www.youtube.com/watch?v=YOst74A72hQ"
+        },
+        {
+            name: "아스트로 (ASTRO)",
+            agency: "판타지오",
+            type: "보이그룹",
+            song: "Candy Sugar Pop",
+            desc: "청량함부터 세련된 섹시함까지 폭넓은 유닛 활동을 보여주는 그룹.",
+            link: "https://namu.wiki/w/아스트로(아이돌)",
+            mv: "https://www.youtube.com/watch?v=d_2eI3O43Y0"
+        },
+        {
+            name: "비투비 (BTOB)",
+            agency: "비투비 컴퍼니",
+            type: "보이그룹",
+            song: "그리워하다",
+            desc: "압도적인 가창력과 친근하고 유쾌한 방송 센스로 검증받은 아티스트.",
+            link: "https://namu.wiki/w/비투비",
+            mv: "https://www.youtube.com/watch?v=wDfqXR_5yyQ"
+        }
+    ];
+
+    // 카드 렌더링
+    function renderIdols(data) {
+        const listContainer = document.getElementById('idol-list');
+        const countInfo = document.getElementById('count-info');
+        listContainer.innerHTML = '';
+
+        countInfo.textContent = `총 ${data.length}개의 그룹 검색됨`;
+
+        if(data.length === 0) {
+            listContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-sub); padding: 40px 0;">검색 결과가 없습니다.</p>';
+            return;
+        }
+
+        data.forEach(idol => {
+            const card = document.createElement('div');
+            card.className = 'idol-card';
+            card.innerHTML = `
+                <div class="idol-card-body">
+                    <div class="badge-group">
+                        <span class="idol-tag">${idol.agency}</span>
+                        <span class="idol-tag type">${idol.type}</span>
+                    </div>
+                    <h3>${idol.name}</h3>
+                    <p>${idol.desc}</p>
+                </div>
+                <div class="btn-group">
+                    <a href="${idol.link}" target="_blank" rel="noopener noreferrer" class="link-btn">프로필 상세 보기</a>
+                    <a href="${idol.mv}" target="_blank" rel="noopener noreferrer" class="link-btn mv-btn">▶ 대표 MV ('${idol.song}') 보기</a>
+                </div>
+            `;
+            listContainer.appendChild(card);
+        });
+    }
+
+    // 필터링 기능
+    function filterIdols() {
+        const query = document.getElementById('search-input').value.toLowerCase();
+        const category = document.getElementById('category-select').value;
+
+        const filtered = idolsData.filter(idol => {
+            const matchesQuery = idol.name.toLowerCase().includes(query) || 
+                                 idol.agency.toLowerCase().includes(query) ||
+                                 idol.song.toLowerCase().includes(query) ||
+                                 idol.desc.toLowerCase().includes(query);
+            const matchesCategory = (category === 'ALL') || (idol.type === category);
+            return matchesQuery && matchesCategory;
+        });
+
+        renderIdols(filtered);
+    }
+
+    // 초기 실행
+    window.onload = () => {
+        renderIdols(idolsData);
+    };
+</script>
+
+</body>
+</html>
